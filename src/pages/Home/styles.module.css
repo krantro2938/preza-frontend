@@ -1,0 +1,304 @@
+.container {
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(135deg, #f0f4ff 0%, #f9f7fe 100%);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.centerContent {
+    text-align: center;
+    max-width: 900px;
+    z-index: 10;
+}
+
+.centerContent h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    color: #1a1a1a;
+    line-height: normal;
+}
+
+.centerContent h2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin: 0 0 3rem 0;
+    color: #a0a0a0;
+}
+
+.centerContent p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 3rem;
+}
+
+.ctaButton {
+    display: inline-block;
+    background-color: #2d7aff;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s;
+    box-shadow: 0 4px 12px rgba(45, 122, 255, 0.3);
+}
+
+.ctaButton:hover {
+    background-color: #1e66e0;
+}
+
+.stickyNote {
+    position: absolute;
+    top: 60px;
+    left: 40px;
+    background: #ffe66d;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 180px;
+    z-index: 5;
+    transform: rotate(-5deg);
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: #333;
+}
+
+.stickyNote::before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: 20px;
+    width: 6px;
+    height: 12px;
+    background: #d44;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.reminderCard {
+    position: absolute;
+    top: 60px;
+    right: 40px;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 180px;
+    z-index: 5;
+    transform: rotate(5deg);
+    text-align: center;
+}
+
+.reminderCard h3 {
+    font-size: 1rem;
+    margin: 0 0 10px 0;
+    color: #333;
+}
+
+.clockIcon {
+    width: 30px;
+    height: 30px;
+    background: #f0f0f0;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    position: relative;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.clockIcon::before,
+.clockIcon::after {
+    content: "";
+    position: absolute;
+    background: #333;
+}
+
+.clockIcon::before {
+    width: 2px;
+    height: 8px;
+    top: 5px;
+    left: 14px;
+    transform: rotate(45deg);
+}
+
+.clockIcon::after {
+    width: 2px;
+    height: 12px;
+    top: 5px;
+    left: 14px;
+    transform: rotate(-15deg);
+}
+
+.reminderCard p {
+    font-size: 0.9rem;
+    margin: 5px 0;
+    font-weight: 600;
+}
+
+.reminderCard span {
+    font-size: 0.8rem;
+    color: #777;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.timeBadge {
+    display: inline-block;
+    background: #e0f0ff;
+    color: #2d7aff;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.tasksCard {
+    position: absolute;
+    bottom: 60px;
+    left: 40px;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 220px;
+    z-index: 5;
+    transform: rotate(-3deg);
+}
+
+.tasksCard h3 {
+    font-size: 1rem;
+    margin: 0 0 10px 0;
+    color: #333;
+}
+
+.taskItem {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.taskItem span:first-child {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.progress {
+    height: 6px;
+    background: #ddd;
+    border-radius: 3px;
+    margin-bottom: 5px;
+    position: relative;
+}
+
+.progress::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: #2d7aff;
+    border-radius: 3px;
+    width: 100%;
+}
+
+.taskItem span:last-child {
+    font-size: 0.8rem;
+    color: #777;
+    text-align: right;
+}
+
+.integrationsCard {
+    position: absolute;
+    bottom: 60px;
+    right: 40px;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 220px;
+    z-index: 5;
+    transform: rotate(3deg);
+    text-align: center;
+}
+
+.integrationsCard h3 {
+    font-size: 1rem;
+    margin: 0 0 15px 0;
+    color: #333;
+}
+
+.integrationIcons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.iconGmail {
+    width: 40px;
+    height: 40px;
+    background: #ea4335;
+    border-radius: 8px;
+    position: relative;
+}
+
+.iconGmail::after {
+    content: "M";
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.iconSlack {
+    width: 40px;
+    height: 40px;
+    background: #4a154b;
+    border-radius: 8px;
+    position: relative;
+}
+
+.iconSlack::after {
+    content: "S";
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.iconGoogleCalendar {
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    border: 2px solid #34a853;
+    border-radius: 8px;
+    position: relative;
+}
+
+.iconGoogleCalendar::after {
+    content: "31";
+    color: #34a853;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.iconContainer {
+    height: 3rem;
+    width: 3rem;
+}
+
+.icon {
+    width: 100%;
+    height: 100%;
+}
