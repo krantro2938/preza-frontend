@@ -1,17 +1,28 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
+import { usePresentations } from "../../hooks/usePresentations";
 
 function CreatePresentation() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
+  const { createPresentation } = usePresentations();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Презентация создана:", { title, description });
-    alert("✅ Презентация успешно создана!");
-    navigate("/");
+
+    try {
+      console.log("Презентация создана:", { title, description });
+      const newPresentation = await createPresentation({ title, description });
+
+      alert("✅ Презентация успешно создана!");
+      console.log("Созданная презентация:", newPresentation);
+      navigate(`/presentation${newPresentation.id}`);
+    } catch (error) {
+      console.error("Ошибка создания презентации:", error);
+      alert("❌ Ошибка создания презентации");
+    }
   };
 
   return (
