@@ -6,7 +6,7 @@ import { usePresentations } from "../../hooks/usePresentations";
 function CreatePresentation() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [templateId, setTemplateId] = useState(""); // ← Теперь используется!
+  const [templateId, setTemplateId] = useState("");
   const [templates, setTemplates] = useState([]);
   const navigate = useNavigate();
   const { createPresentation } = usePresentations();
@@ -17,7 +17,6 @@ function CreatePresentation() {
       if (!res.ok) throw new Error("Не удалось загрузить шаблоны");
       const resTemplates = await res.json();
       setTemplates(resTemplates);
-      // Устанавливаем первый шаблон по умолчанию
       if (resTemplates.length > 0) {
         setTemplateId(resTemplates[0].id);
       }
@@ -43,7 +42,7 @@ function CreatePresentation() {
       const newPresentation = await createPresentation({
         title,
         description,
-        templateId, // ← Передаём выбранный шаблон
+        templateId,
       });
 
       alert("✅ Презентация успешно создана!");
@@ -56,7 +55,6 @@ function CreatePresentation() {
 
   return (
     <div className={styles.container}>
-      {/* Декоративные элементы */}
       <div className={styles.aiSparkle}></div>
       <div className={styles.designTip}>
         <p>💡 ИИ предложит стиль, макет и контент на основе вашего описания</p>
@@ -66,7 +64,6 @@ function CreatePresentation() {
         <p>Предпросмотр генерируется автоматически</p>
       </div>
 
-      {/* Основной блок формы */}
       <div className={styles.formCard}>
         <h1>Создать новую презентацию</h1>
         <p className={styles.subtitle}>
@@ -98,7 +95,6 @@ function CreatePresentation() {
             />
           </div>
 
-          {/* Блок выбора шаблона */}
           <div className={styles.templateSection}>
             <h3>Выберите шаблон</h3>
             <div className={styles.templateGrid}>
