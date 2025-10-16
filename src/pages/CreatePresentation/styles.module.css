@@ -151,6 +151,98 @@
     min-height: 120px;
 }
 
+/* Раздел шаблонов */
+.templateSection {
+    text-align: left;
+    margin: 24px 0 32px;
+}
+
+.templateSection h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 16px;
+}
+
+.templateGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.templateCard {
+    position: relative;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.templateCard:hover {
+    border-color: #8b5cf6;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.1);
+}
+
+.templateCard.selected {
+    border-color: #7c3aed;
+    background: #f3e8ff;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+}
+
+.templateImage {
+    width: 100%;
+    height: 80px;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.templateImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.templateName {
+    font-size: 0.85rem;
+    color: #374151;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.radioInput {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.loading {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #6b7280;
+    font-style: italic;
+    padding: 20px;
+}
+
 .submitButton {
     width: 100%;
     padding: 16px;

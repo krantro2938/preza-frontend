@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
 import { usePresentations } from "../../hooks/usePresentations";
@@ -6,19 +6,48 @@ import { usePresentations } from "../../hooks/usePresentations";
 function CreatePresentation() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [templateId, setTemplateId] = useState(""); // ← Теперь используется!
+  const [templates, setTemplates] = useState([]);
   const navigate = useNavigate();
   const { createPresentation } = usePresentations();
+
+  const getTemplates = async () => {
+    try {
+      const res = await fetch("/templates");
+      if (!res.ok) throw new Error("Не удалось загрузить шаблоны");
+      const resTemplates = await res.json();
+      setTemplates(resTemplates);
+      // Устанавливаем первый шаблон по умолчанию
+      if (resTemplates.length > 0) {
+        setTemplateId(resTemplates[0].id);
+      }
+    } catch (error) {
+      console.error("Ошибка загрузки шаблонов:", error);
+      alert("⚠️ Не удалось загрузить шаблоны. Попробуйте позже.");
+    }
+  };
+
+  useEffect(() => {
+    getTemplates();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!templateId) {
+      alert("Пожалуйста, выберите шаблон");
+      return;
+    }
+
     try {
-      console.log("Презентация создана:", { title, description });
-      const newPresentation = await createPresentation({ title, description });
+      const newPresentation = await createPresentation({
+        title,
+        description,
+        templateId, // ← Передаём выбранный шаблон
+      });
 
       alert("✅ Презентация успешно создана!");
-      console.log("Созданная презентация:", newPresentation);
-      navigate(`/presentation${newPresentation.id}`);
+      navigate(`/presentation/${newPresentation.id}`);
     } catch (error) {
       console.error("Ошибка создания презентации:", error);
       alert("❌ Ошибка создания презентации");
@@ -27,6 +56,8 @@ function CreatePresentation() {
 
   return (
     <div className={styles.container}>
+      {/* Декоративные элементы */}
+      <div className={styles.aiSparkle}></div>
       <div className={styles.designTip}>
         <p>💡 ИИ предложит стиль, макет и контент на основе вашего описания</p>
       </div>
@@ -35,6 +66,7 @@ function CreatePresentation() {
         <p>Предпросмотр генерируется автоматически</p>
       </div>
 
+      {/* Основной блок формы */}
       <div className={styles.formCard}>
         <h1>Создать новую презентацию</h1>
         <p className={styles.subtitle}>
@@ -64,6 +96,45 @@ function CreatePresentation() {
               rows="5"
               required
             />
+          </div>
+
+          {/* Блок выбора шаблона */}
+          <div className={styles.templateSection}>
+            <h3>Выберите шаблон</h3>
+            <div className={styles.templateGrid}>
+              {templates.length > 0 ? (
+                templates.map((template) => (
+                  <label
+                    key={template.id}
+                    className={`${styles.templateCard} ${
+                      templateId === template.id ? styles.selected : ""
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="template"
+                      value={template.id}
+                      checked={templateId === template.id}
+                      onChange={() => setTemplateId(template.id)}
+                      className={styles.radioInput}
+                    />
+                    <div className={styles.templateImage}>
+                      <img
+                        src={template.previewUrl || "/placeholder-template.png"}
+                        alt={template.name}
+                        onError={(e) => {
+                          e.target.src =
+                            "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMTQwIiB2aWV3Qm94PSIwIDAgMjAwIDE0MCI+PGFscGhhIGZpbGw9IiM5OTkiPjxwYXRoIGQ9Ik0wIDBoMjAwdjE0MEgwVjB6Ii8+PC9hbHBoYT48L3N2Zz4=";
+                        }}
+                      />
+                    </div>
+                    <div className={styles.templateName}>{template.name}</div>
+                  </label>
+                ))
+              ) : (
+                <p className={styles.loading}>Загрузка шаблонов...</p>
+              )}
+            </div>
           </div>
 
           <button type="submit" className={styles.submitButton}>
