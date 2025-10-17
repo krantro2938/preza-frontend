@@ -1,0 +1,228 @@
+.notFoundContent {
+    text-align: center;
+    width: 100%;
+    padding: 40px 20px;
+}
+
+.notFoundIcon {
+    font-size: 5rem;
+    margin-bottom: 24px;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+.notFoundTitle {
+    font-size: 6rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0 0 16px 0;
+    line-height: 1;
+}
+
+.notFoundSubtitle {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1e1b4b;
+    margin: 0 0 24px 0;
+}
+
+.notFoundText {
+    font-size: 1.2rem;
+    color: #6b7280;
+    line-height: 1.6;
+    margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.notFoundActions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+}
+
+.primaryButton {
+    padding: 16px 32px;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.35);
+}
+
+.primaryButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(79, 70, 229, 0.45);
+}
+
+.notFoundHelp {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.notFoundHelp h3 {
+    font-size: 1.5rem;
+    color: #1e1b4b;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.helpGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.helpCard {
+    background: #f8faff;
+    padding: 30px 20px;
+    border-radius: 16px;
+    border: 2px solid #ede9fe;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.helpCard:hover {
+    transform: translateY(-5px);
+    border-color: #8b5cf6;
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.15);
+}
+
+.helpIcon {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+}
+
+.helpCard h4 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1e1b4b;
+    margin: 0 0 12px 0;
+}
+
+.helpCard p {
+    font-size: 0.95rem;
+    color: #6b7280;
+    line-height: 1.5;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .notFoundTitle {
+        font-size: 4rem;
+    }
+
+    .notFoundSubtitle {
+        font-size: 1.5rem;
+    }
+
+    .notFoundText {
+        font-size: 1.1rem;
+        padding: 0 10px;
+    }
+
+    .notFoundActions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .primaryButton,
+    .refreshButton {
+        width: 250px;
+    }
+
+    .helpGrid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .helpCard {
+        padding: 24px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .notFoundContent {
+        padding: 20px 10px;
+    }
+
+    .notFoundTitle {
+        font-size: 3rem;
+    }
+
+    .notFoundSubtitle {
+        font-size: 1.3rem;
+    }
+
+    .notFoundText {
+        font-size: 1rem;
+    }
+
+    .notFoundIcon {
+        font-size: 4rem;
+    }
+
+    .helpCard {
+        padding: 20px 15px;
+    }
+
+    .helpIcon {
+        font-size: 2rem;
+    }
+}
+
+.refreshButton {
+    padding: 14px 28px;
+    background: white;
+    color: #7c3aed;
+    border: 2px solid #7c3aed;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.refreshButton:hover {
+    background: #f5f3ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.notFoundContent > * {
+    animation: fadeInUp 0.6s ease-out;
+}
