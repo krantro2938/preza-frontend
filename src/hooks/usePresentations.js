@@ -22,7 +22,7 @@ export function usePresentations() {
 
   const createPresentation = async (presentationData) => {
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
-    const response = await fetch(`${backendUrl}/presentations`, {
+    const response = await fetch(`${backendUrl}/generate`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
