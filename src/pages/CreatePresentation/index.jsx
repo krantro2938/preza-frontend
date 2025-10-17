@@ -10,10 +10,10 @@ function CreatePresentation() {
   const [templates, setTemplates] = useState([]);
   const navigate = useNavigate();
   const { createPresentation } = usePresentations();
-
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const getTemplates = async () => {
     try {
-      const res = await fetch("/templates");
+      const res = await fetch(`${backendUrl}/templates`);
       if (!res.ok) throw new Error("Не удалось загрузить шаблоны");
       const resTemplates = await res.json();
       setTemplates(resTemplates);
@@ -42,7 +42,7 @@ function CreatePresentation() {
       const newPresentation = await createPresentation({
         title,
         description,
-        templateId,
+        template_id: templateId,
       });
 
       alert("✅ Презентация успешно создана!");
