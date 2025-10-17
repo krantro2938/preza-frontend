@@ -7,16 +7,22 @@ export function usePresentations() {
 
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
+    console.log("Loading presentations from localStorage:", stored);
     if (stored) {
       try {
-        setPresentations(JSON.parse(stored));
+        const parsed = JSON.parse(stored);
+        console.log("Parsed presentations:", parsed);
+        setPresentations(parsed);
       } catch (error) {
         console.error("Error parsing stored presentations:", error);
       }
+    } else {
+      console.log("No presentations found in localStorage");
     }
   }, []);
 
   useEffect(() => {
+    console.log("Saving presentations to localStorage:", presentations);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(presentations));
   }, [presentations]);
 
@@ -36,6 +42,7 @@ export function usePresentations() {
 
     const newPresentation = await response.json();
     setPresentations((prev) => [...prev, newPresentation]);
+    console.log("added new presentation")
     return newPresentation;
   };
 
@@ -53,11 +60,16 @@ export function usePresentations() {
     setPresentations((prev) => prev.filter((p) => p.id !== id));
   };
 
+  const addPresentation = (presentation) => {
+    setPresentations((prev) => [presentation, ...prev])
+  }
+
   return {
     presentations,
     createPresentation,
     getPresentation,
     updatePresentation,
     deletePresentation,
+    addPresentation
   };
 }

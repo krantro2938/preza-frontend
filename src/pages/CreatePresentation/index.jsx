@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
-import { usePresentations } from "../../hooks/usePresentations";
+import { usePresentationsContext } from "../../App";
 
 function CreatePresentation() {
   const [title, setTitle] = useState("");
@@ -9,7 +9,7 @@ function CreatePresentation() {
   const [templateId, setTemplateId] = useState("");
   const [templates, setTemplates] = useState([]);
   const navigate = useNavigate();
-  const { createPresentation } = usePresentations();
+  const { presentations, createPresentation, addPresentation} = usePresentationsContext();
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const getTemplates = async () => {
     try {
@@ -27,6 +27,7 @@ function CreatePresentation() {
   };
 
   useEffect(() => {
+    console.log(presentations)
     getTemplates();
   }, []);
 

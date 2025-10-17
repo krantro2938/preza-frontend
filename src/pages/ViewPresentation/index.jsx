@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styles from './styles.module.css';
-import {usePresentations} from "../../hooks/usePresentations.js";
+import {usePresentationsContext} from "../../App";
 import {useNavigate, useParams} from "react-router-dom";
 import data from '/public/generated_slide.json'
 
 const Presentation = () => {
     const {id} = useParams();
-    const presentationData = usePresentations().getPresentation(id)||data;
+    const { getPresentation } = usePresentationsContext();
+    const presentationData = getPresentation(id) || data;
     const navigate = useNavigate();
 
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
