@@ -13,7 +13,7 @@ function CreatePresentation() {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const getTemplates = async () => {
     try {
-      const res = await fetch(`${backendUrl}/templates`);
+      const res = await fetch(`http://${backendUrl}/templates/`);
       if (!res.ok) throw new Error("Не удалось загрузить шаблоны");
       const resTemplates = await res.json();
       setTemplates(resTemplates);
@@ -38,12 +38,14 @@ function CreatePresentation() {
       return;
     }
 
+    const presentationData = {
+      title,
+      description,
+      template_id: templateId, // 👈 Make sure this matches backend field name!
+    };
+
     try {
-      const newPresentation = await createPresentation({
-        title,
-        description,
-        template_id: templateId,
-      });
+      const newPresentation = await createPresentation(presentationData);
 
       alert("✅ Презентация успешно создана!");
       navigate(`/presentation/${newPresentation.id}`);
@@ -116,7 +118,7 @@ function CreatePresentation() {
                     />
                     <div className={styles.templateImage}>
                       <img
-                        src={template.previewUrl || "/placeholder-template.png"}
+                        src={template.preview_url || "/placeholder-template.png"}
                         alt={template.name}
                         onError={(e) => {
                           e.target.src =
@@ -124,7 +126,7 @@ function CreatePresentation() {
                         }}
                       />
                     </div>
-                    <div className={styles.templateName}>{template.name}</div>
+                    <div className={styles.templateName}>{template.title}</div>
                   </label>
                 ))
               ) : (
