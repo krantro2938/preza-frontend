@@ -70,9 +70,14 @@ function Home() {
         <p>
           От идеи до готового доклада — с умным дизайном и вашим содержанием.
         </p>
-        <Link to="/create-presentation" className={styles.ctaButton}>
-          Создать первую презентацию
-        </Link>
+        <div className={styles.buttonGroup}>
+          <Link to="/create-presentation" className={styles.ctaButton}>
+            Создать первую презентацию
+          </Link>
+          <Link to="/dashboard" className={styles.secondaryButton}>
+            Мои проекты
+          </Link>
+        </div>
       </div>
     </div>
   );

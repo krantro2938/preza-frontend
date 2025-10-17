@@ -51,7 +51,31 @@
 }
 
 .ctaButton:hover {
-    background-color: #1e66e0;
+  background-color: #1e66e0;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.secondaryButton {
+  display: inline-block;
+  background-color: transparent;
+  color: #2d7aff;
+  padding: 12px 24px;
+  border: 2px solid #2d7aff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.secondaryButton:hover {
+  background-color: #2d7aff;
+  color: white;
 }
 
 .stickyNote {
