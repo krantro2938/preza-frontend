@@ -1,11 +1,13 @@
-import  { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styles from './styles.module.css';
 import {usePresentations} from "../../hooks/usePresentations.js";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
+import data from '/public/generated_slide.json'
 
 const Presentation = () => {
     const {id} = useParams();
-    const presentationData = usePresentations().getPresentation(id);
+    const presentationData = usePresentations().getPresentation(id)||data;
+    const navigate = useNavigate();
 
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
     const currentSlide = presentationData?.slides[currentSlideIndex];
@@ -261,10 +263,10 @@ const Presentation = () => {
                         }
                     </p>
                     <div className={styles.noPresentationActions}>
-                        <button className={styles.refreshButton} onClick={() => window.location.reload()}>
+                        <button className={styles.refreshButton} onClick={() => navigate(0)}>
                             Обновить страницу
                         </button>
-                        <button className={styles.backButton} onClick={() => window.history.back()}>
+                        <button className={styles.backButton} onClick={() => navigate(-1)}>
                             Вернуться назад
                         </button>
                     </div>
@@ -307,6 +309,21 @@ const Presentation = () => {
                 {renderSlideContent()}
 
 
+            </div>
+
+            <div className={styles.presentationHeader}>
+                <button
+                    className={styles.refreshButton}
+                    onClick={() => navigate(-1)}
+                >
+                    ← Вернуться назад
+                </button>
+                <button
+                    className={styles.primaryButton}
+                    onClick={() => navigate('/')}
+                >
+                    🏠 На главную
+                </button>
             </div>
 
             <div className={styles.navigation}>
