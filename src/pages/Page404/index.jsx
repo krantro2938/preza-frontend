@@ -1,7 +1,9 @@
 import React from 'react';
 import styles from './styles.module.css';
+import {useNavigate} from "react-router-dom";
 
 const NotFoundPage = () => {
+    const navigate = useNavigate();
     return (
         <div className={styles.slideContainer}>
             <div className={styles.notFoundContent}>
@@ -16,19 +18,19 @@ const NotFoundPage = () => {
                 <div className={styles.notFoundActions}>
                     <button
                         className={styles.refreshButton}
-                        onClick={() => window.history.back()}
+                        onClick={() => navigate(-1)}
                     >
                         ← Вернуться назад
                     </button>
                     <button
                         className={styles.primaryButton}
-                        onClick={() => window.location.href = '/'}
+                        onClick={() => navigate('/')}
                     >
                         🏠 На главную
                     </button>
                     <button
                         className={styles.refreshButton}
-                        onClick={() => window.location.reload()}
+                        onClick={() => navigate(0)}
                     >
                         🔄 Обновить
                     </button>
