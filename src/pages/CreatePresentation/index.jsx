@@ -8,6 +8,7 @@ function CreatePresentation() {
   const [description, setDescription] = useState("");
   const [templateId, setTemplateId] = useState("");
   const [templates, setTemplates] = useState([]);
+  const [isGenerating, setIsGenerating] = useState(false);
   const navigate = useNavigate();
   const { presentations, createPresentation, addPresentation} = usePresentationsContext();
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -39,10 +40,12 @@ function CreatePresentation() {
       return;
     }
 
+    setIsGenerating(true);
+
     const presentationData = {
       title,
       description,
-      template_id: templateId, // 👈 Make sure this matches backend field name!
+      template_id: templateId, 
     };
 
     try {
@@ -53,6 +56,8 @@ function CreatePresentation() {
     } catch (error) {
       console.error("Ошибка создания презентации:", error);
       alert("❌ Ошибка создания презентации");
+    } finally {
+      setIsGenerating(false);
     }
   };
 
@@ -136,8 +141,8 @@ function CreatePresentation() {
             </div>
           </div>
 
-          <button type="submit" className={styles.submitButton}>
-            Сгенерировать презентацию
+          <button type="submit" className={styles.submitButton} disabled={isGenerating}>
+            {isGenerating ? "Генерация..." : "Сгенерировать презентацию"}
           </button>
         </form>
 
