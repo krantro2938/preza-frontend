@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 const STORAGE_KEY = "presentations";
 
 export function usePresentations() {
-  const [presentations, setPresentations] = useState([]);
+  const [presentations, setPresentations] = useState(JSON.parse(localStorage.getItem(STORAGE_KEY)));
 
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -47,7 +47,7 @@ export function usePresentations() {
   };
 
   const getPresentation = (id) => {
-    return presentations.find((p) => p.id === id);
+    return presentations.find((p) => p.id === Number(id));
   };
 
   const updatePresentation = (id, updates) => {
