@@ -12,7 +12,6 @@ const Presentation = () => {
 
     useEffect(()=>{
         setPresentationData(getPresentation(id).presentation)
-        console.log(presentationData, getPresentation(Number(id)))
     },[presentations])
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
@@ -31,8 +30,7 @@ const Presentation = () => {
     const handleDownload = async () => {
         const backendUrl = import.meta.env.VITE_BACKEND_URL;
         try {
-            const res = await fetch(`${backendUrl}/presentations/${id}/download`);
-            if (!res.ok) throw new Error("Не удалось загрузить презентацию");
+            const res = await fetch(`http://${backendUrl}/presentations/${id}/download`);
 
             const blob = await res.blob();
 
