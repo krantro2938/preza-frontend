@@ -2,28 +2,64 @@ import React, { useState, useEffect, useCallback } from 'react';
 import styles from './styles.module.css';
 import {usePresentationsContext} from "../../App";
 import {useNavigate, useParams} from "react-router-dom";
-import data from '/public/generated_slide.json'
+// import data from '/public/generated_slide.json'
 
 const Presentation = () => {
     const {id} = useParams();
-    const { getPresentation } = usePresentationsContext();
-    const presentationData = getPresentation(id) || data;
+    const { getPresentation, presentations } = usePresentationsContext();
+    const [presentationData, setPresentationData] = useState(getPresentation(id).presentation);
     const navigate = useNavigate();
 
+    useEffect(()=>{
+        setPresentationData(getPresentation(id).presentation)
+        console.log(presentationData, getPresentation(Number(id)))
+    },[presentations])
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-    const currentSlide = presentationData?.slides[currentSlideIndex];
 
     const nextSlide = useCallback(() => {
         if (currentSlideIndex < presentationData?.slides.length - 1) {
             setCurrentSlideIndex(currentSlideIndex + 1);
         }
-    }, [currentSlideIndex, presentationData?.slides.length]);
+    }, [currentSlideIndex]);
 
     const prevSlide = useCallback(() => {
         if (currentSlideIndex > 0) {
             setCurrentSlideIndex(currentSlideIndex - 1);
         }
     }, [currentSlideIndex]);
+
+    const handleDownload = async () => {
+        const backendUrl = import.meta.env.VITE_BACKEND_URL;
+        try {
+            const res = await fetch(`${backendUrl}/presentations/${id}/download`);
+            if (!res.ok) throw new Error("Не удалось загрузить презентацию");
+
+            const blob = await res.blob();
+
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+
+            const contentDisposition = res.headers.get('content-disposition');
+            let filename = 'presentation.pptx';
+
+            if (contentDisposition) {
+                const filenameMatch = contentDisposition.match(/filename="?(.+)"?/);
+                if (filenameMatch) filename = filenameMatch[1];
+            }
+
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+
+        } catch (error) {
+            console.error("Ошибка загрузки презентации:", error);
+            alert("⚠️ Не удалось загрузить презентацию. Попробуйте позже.");
+        }
+    }
 
 
 
@@ -110,17 +146,35 @@ const Presentation = () => {
         );
     };
 
-    const renderSlideContent = (slide=currentSlide) => {
+    const renderSlideContent = (slide = currentSlide) => {
         console.log(slide)
+
+        // Helper function to get field value by id
+        const getFieldValue = (fields, fieldId) => {
+            return fields[fieldId]?.value || '';
+        };
+
+        // Helper function to get array field values
+        const getArrayFieldValues = (fields, fieldId) => {
+            const field = fields[fieldId];
+            if (!field || !field.value) return [];
+
+            // For array fields, value is an array of objects like [{item1: {value: "text"}}, {item2: {value: "text"}}]
+            return field.value.map(item => {
+                const key = Object.keys(item)[0];
+                return item[key].value;
+            });
+        };
+
         switch (slide.id) {
             case 'title_slide':
                 return (
                     <div className={styles.titleSlide}>
-                        <h1 className={styles.mainTitle}>{slide.fields.title.value}</h1>
-                        <h2 className={styles.subtitle}>{slide.fields.subtitle.value}</h2>
+                        <h1 className={styles.mainTitle}>{getFieldValue(slide.fields, 'title')}</h1>
+                        <h2 className={styles.subtitle}>{getFieldValue(slide.fields, 'subtitle')}</h2>
                         <div className={styles.metaInfo}>
-                            <p className={styles.presenter}>{slide.fields.presenter.value}</p>
-                            <p className={styles.date}>{slide.fields.date.value}</p>
+                            <p className={styles.presenter}>{getFieldValue(slide.fields, 'presenter')}</p>
+                            <p className={styles.date}>{getFieldValue(slide.fields, 'date')}</p>
                         </div>
                     </div>
                 );
@@ -128,11 +182,11 @@ const Presentation = () => {
             case 'agenda_slide':
                 return (
                     <div className={styles.agendaSlide}>
-                        <h2 className={styles.slideTitle}>{slide.title}</h2>
+                        <h2 className={styles.slideTitle}>Agenda</h2>
                         <ul className={styles.agendaList}>
-                            {slide.fields.agenda_items.value.map((item, index) => (
+                            {getArrayFieldValues(slide.fields, 'agenda_items').map((item, index) => (
                                 <li key={index} className={styles.agendaItem}>
-                                    {Object.values(item)[0]}
+                                    {item}
                                 </li>
                             ))}
                         </ul>
@@ -142,12 +196,12 @@ const Presentation = () => {
             case 'introduction_slide':
                 return (
                     <div className={styles.contentSlide}>
-                        <h2 className={styles.slideTitle}>{slide.title}</h2>
-                        <p className={styles.introText}>{slide.fields.introduction_text.value}</p>
+                        <h2 className={styles.slideTitle}>Introduction to Disney</h2>
+                        <p className={styles.introText}>{getFieldValue(slide.fields, 'introduction_text')}</p>
                         <ul className={styles.factsList}>
-                            {slide.fields.key_facts.value.map((fact, index) => (
+                            {getArrayFieldValues(slide.fields, 'key_facts').map((fact, index) => (
                                 <li key={index} className={styles.factItem}>
-                                    {Object.values(fact)[0]}
+                                    {fact}
                                 </li>
                             ))}
                         </ul>
@@ -157,16 +211,16 @@ const Presentation = () => {
             case 'milestones_slide':
                 return (
                     <div className={styles.contentSlide}>
-                        <h2 className={styles.slideTitle}>{slide.title}</h2>
+                        <h2 className={styles.slideTitle}>Key Milestones</h2>
                         <ul className={styles.milestonesList}>
-                            {slide.fields.milestones.value.map((milestone, index) => (
+                            {getArrayFieldValues(slide.fields, 'milestones').map((milestone, index) => (
                                 <li key={index} className={styles.milestoneItem}>
-                  <span className={styles.milestoneYear}>
-                    {Object.values(milestone)[0].split(':')[0]}:
-                  </span>
+                                <span className={styles.milestoneYear}>
+                                    {milestone.split(':')[0]}:
+                                </span>
                                     <span className={styles.milestoneText}>
-                    {Object.values(milestone)[0].split(':').slice(1).join(':')}
-                  </span>
+                                    {milestone.split(':').slice(1).join(':')}
+                                </span>
                                 </li>
                             ))}
                         </ul>
@@ -174,76 +228,75 @@ const Presentation = () => {
                 );
 
             case 'business_segments_slide':
+                return (
+                    <div className={styles.contentSlide}>
+                        <h2 className={styles.slideTitle}>Business Segments</h2>
+                        <ul className={styles.segmentsList}>
+                            {getArrayFieldValues(slide.fields, 'segments').map((segment, index) => (
+                                <li key={index} className={styles.segmentItem}>
+                                    {segment}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                );
+
             case 'financial_highlights_slide':
+                return (
+                    <div className={styles.contentSlide}>
+                        <h2 className={styles.slideTitle}>Financial Highlights</h2>
+                        <ul className={styles.dataList}>
+                            {getArrayFieldValues(slide.fields, 'financial_data').map((data, index) => (
+                                <li key={index} className={styles.dataItem}>
+                                    {data}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                );
+
             case 'case_study_slide':
+                return (
+                    <div className={styles.contentSlide}>
+                        <h2 className={styles.slideTitle}>Case Study: Disney+</h2>
+                        <p className={styles.contentText}>{getFieldValue(slide.fields, 'case_study_text')}</p>
+                        <ul className={styles.metricsList}>
+                            {getArrayFieldValues(slide.fields, 'key_metrics').map((metric, index) => (
+                                <li key={index} className={styles.metricItem}>
+                                    {metric}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                );
+
             case 'conclusion_slide':
                 return (
                     <div className={styles.contentSlide}>
-                        <h2 className={styles.slideTitle}>{slide.title}</h2>
-                        {slide.fields.introduction_text && (
-                            <p className={styles.contentText}>{slide.fields.introduction_text.value}</p>
-                        )}
-                        {slide.fields.case_study_text && (
-                            <p className={styles.contentText}>{slide.fields.case_study_text.value}</p>
-                        )}
-                        {slide.fields.conclusion_text && (
-                            <p className={styles.contentText}>{slide.fields.conclusion_text.value}</p>
-                        )}
-
-                        {slide.fields.segments && (
-                            <ul className={styles.segmentsList}>
-                                {slide.fields.segments.value.map((segment, index) => (
-                                    <li key={index} className={styles.segmentItem}>
-                                        {Object.values(segment)[0]}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-
-                        {slide.fields.financial_data && (
-                            <ul className={styles.dataList}>
-                                {slide.fields.financial_data.value.map((data, index) => (
-                                    <li key={index} className={styles.dataItem}>
-                                        {Object.values(data)[0]}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-
-                        {slide.fields.key_metrics && (
-                            <ul className={styles.metricsList}>
-                                {slide.fields.key_metrics.value.map((metric, index) => (
-                                    <li key={index} className={styles.metricItem}>
-                                        {Object.values(metric)[0]}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-
-                        {slide.fields.takeaways && (
-                            <ul className={styles.takeawaysList}>
-                                {slide.fields.takeaways.value.map((takeaway, index) => (
-                                    <li key={index} className={styles.takeawayItem}>
-                                        {Object.values(takeaway)[0]}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
+                        <h2 className={styles.slideTitle}>Conclusion</h2>
+                        <p className={styles.contentText}>{getFieldValue(slide.fields, 'conclusion_text')}</p>
+                        <ul className={styles.takeawaysList}>
+                            {getArrayFieldValues(slide.fields, 'takeaways').map((takeaway, index) => (
+                                <li key={index} className={styles.takeawayItem}>
+                                    {takeaway}
+                                </li>
+                            ))}
+                        </ul>
                     </div>
                 );
 
             case 'qna_slide':
                 return (
                     <div className={styles.qnaSlide}>
-                        <h2 className={styles.slideTitle}>{slide.title}</h2>
-                        <p className={styles.qnaText}>{slide.fields.qna_text.value}</p>
+                        <h2 className={styles.slideTitle}>Q&A</h2>
+                        <p className={styles.qnaText}>{getFieldValue(slide.fields, 'qna_text')}</p>
                     </div>
                 );
 
             default:
                 return (
                     <div className={styles.contentSlide}>
-                        <h2 className={styles.slideTitle}>{slide.title}</h2>
+                        <h2 className={styles.slideTitle}>{slide.id}</h2>
                         <p>Slide content not defined</p>
                     </div>
                 );
@@ -284,6 +337,8 @@ const Presentation = () => {
         );
     }
 
+    const currentSlide = presentationData?.slides[currentSlideIndex];
+
 
     return (
         <div
@@ -313,6 +368,14 @@ const Presentation = () => {
             </div>
 
             <div className={styles.presentationHeader}>
+                <button
+                    className={styles.downloadPptxButton}
+                    onClick={handleDownload}
+                    title="Скачать в формате PPTX"
+                    disabled={!presentationData || !presentationData.slides.length}
+                >
+                    📥 Скачать PPTX
+                </button>
                 <button
                     className={styles.refreshButton}
                     onClick={() => navigate(-1)}
