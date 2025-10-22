@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Eye, Calendar, Layers, User, ArrowLeft, Trash2, FileText } from 'lucide-react';
+import { Eye, Calendar, Layers, User, ArrowLeft, Trash2, FileText, DownloadIcon } from 'lucide-react';
 import { presentationApi } from '../services/api';
 import { localStorageUtils } from '../utils/localStorage';
 
@@ -235,7 +235,7 @@ export default function PresentationsPage() {
                       className="p-1.5 text-gray-500 hover:text-gray-700 transition-colors"
                       title="Скачать PPTX"
                     >
-                      <FileText className="w-4 h-4" />
+                      <DownloadIcon className="w-4 h-4" />
                     </button>
                     
                     <button

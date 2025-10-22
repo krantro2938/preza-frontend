@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, ArrowLeft, Home, Monitor, FileText } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowLeft, Home, Monitor, FileText, DownloadIcon } from 'lucide-react';
 import { presentationApi } from '../services/api';
 import SlideRenderer from '../components/slides/SlideRenderer';
 
@@ -161,7 +161,7 @@ export default function PresentationPage() {
                 className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
                 title="Скачать PPTX"
               >
-                <FileText className="w-5 h-5" />
+                <DownloadIcon className="w-5 h-5" />
               </button>
               <button
                 onClick={() => navigate('/')}
