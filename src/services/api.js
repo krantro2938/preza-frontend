@@ -42,6 +42,18 @@ export const presentationApi = {
     return response;
   },
 
+  // Обновление слайда
+  updateSlide: async (slideId, data) => {
+    const response = await api.patch(`/api/slides/${slideId}`, data);
+    return response.data;
+  },
+
+  // Изменение порядка слайдов
+  reorderSlides: async (presentationId, newOrder) => {
+    const response = await api.patch(`/api/presentations/${presentationId}/reorder`, newOrder);
+    return response.data;
+  },
+
 };
 
 export default api;

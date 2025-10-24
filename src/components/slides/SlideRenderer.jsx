@@ -6,14 +6,35 @@ import SplitContentLayout from './SplitContentLayout';
 import ImageTopLayout from './ImageTopLayout';
 import GridLayout from './GridLayout';
 
-export default function SlideRenderer({ slide }) {
-  const getSlideLayout = (layout, slideNumber) => {
-    if (layout === 'title-slide') {
+export default function SlideRenderer({ slide, layoutOrder }) {
+  const getSlideLayout = (layout, slideNumber, layoutOrder) => {
+    // Check if it's a title slide (slide_number === 1 or layout === 'title-slide')
+    if (layout === 'title-slide' || slideNumber === 1) {
       return TitleSlideLayout;
     }
     
-    // Use different layouts based on slide number to match PPTX variety
-    const layoutStyles = [
+    // Map layout names to components
+    const layoutMap = {
+      'image_left': ContentSlideLayout,
+      'image_right': ImageRightLayout,
+      'text_only': TextOnlyLayout,
+      'split_content': SplitContentLayout,
+      'image_top': ImageTopLayout,
+      'grid_layout': GridLayout
+    };
+    
+    // For content slides (not title), use layout order
+    // Adjust index: slide 2 uses index 0, slide 3 uses index 1, etc.
+    const contentSlideIndex = slideNumber - 2;  // -2 because slide 1 is title
+    
+    // If layoutOrder is provided, use it; otherwise fallback to sequential
+    if (layoutOrder && layoutOrder.length > 0 && contentSlideIndex >= 0) {
+      const layoutName = layoutOrder[contentSlideIndex % layoutOrder.length];
+      return layoutMap[layoutName] || ContentSlideLayout;
+    }
+    
+    // Default sequential order (for old presentations without layout_order)
+    const defaultLayoutStyles = [
       ContentSlideLayout,        // image_left
       ImageRightLayout,          // image_right 
       TextOnlyLayout,            // text_only
@@ -22,10 +43,10 @@ export default function SlideRenderer({ slide }) {
       GridLayout                 // grid_layout
     ];
     
-    return layoutStyles[slideNumber % layoutStyles.length];
+    return defaultLayoutStyles[Math.max(0, contentSlideIndex) % defaultLayoutStyles.length];
   };
 
-  const LayoutComponent = getSlideLayout(slide.layout, (slide.slide_number - 1) % 6);
+  const LayoutComponent = getSlideLayout(slide.layout, slide.slide_number, layoutOrder);
 
   return (
     <div className="w-full bg-white rounded-lg shadow-lg border overflow-hidden" style={{ aspectRatio: '16/9' }}>

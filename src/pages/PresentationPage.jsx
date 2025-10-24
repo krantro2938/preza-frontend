@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, ArrowLeft, Home, Monitor, FileText, DownloadIcon } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowLeft, Home, Monitor, FileText, DownloadIcon, Edit, List } from 'lucide-react';
 import { presentationApi } from '../services/api';
 import SlideRenderer from '../components/slides/SlideRenderer';
+import SlideEditor from '../components/SlideEditor';
+import SlideOrderManager from '../components/SlideOrderManager';
 
 export default function PresentationPage() {
   const { id } = useParams();
@@ -13,6 +15,8 @@ export default function PresentationPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [fullscreen, setFullscreen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isReordering, setIsReordering] = useState(false);
 
   useEffect(() => {
     loadPresentation();
@@ -100,6 +104,29 @@ export default function PresentationPage() {
     }
   };
 
+  const handleSaveSlide = async (slideData) => {
+    try {
+      await presentationApi.updateSlide(currentSlideData.id, slideData);
+      // Reload presentation to get updated data
+      await loadPresentation();
+    } catch (err) {
+      console.error('Ошибка сохранения слайда:', err);
+      throw err;
+    }
+  };
+
+  const handleSaveOrder = async (newOrder) => {
+    try {
+      await presentationApi.reorderSlides(id, newOrder);
+      // Reset to first slide and reload
+      setCurrentSlide(0);
+      await loadPresentation();
+    } catch (err) {
+      console.error('Ошибка сохранения порядка:', err);
+      throw err;
+    }
+  };
+
 
 
   if (loading) {
@@ -157,6 +184,20 @@ export default function PresentationPage() {
             
             <div className="flex items-center space-x-2">
               <button
+                onClick={() => setIsEditing(true)}
+                className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
+                title="Редактировать слайд"
+              >
+                <Edit className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => setIsReordering(true)}
+                className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
+                title="Изменить порядок слайдов"
+              >
+                <List className="w-5 h-5" />
+              </button>
+              <button
                 onClick={handleDownloadPptx}
                 className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
                 title="Скачать PPTX"
@@ -185,7 +226,7 @@ export default function PresentationPage() {
       {/* Slide Content */}
       <div className="flex-1 flex flex-col items-center justify-center p-8">
         <div className="w-full max-w-4xl">
-          <SlideRenderer slide={currentSlideData} />
+          <SlideRenderer slide={currentSlideData} layoutOrder={presentation.layout_order} />
         </div>
 
         {/* Slide Navigation */}
@@ -237,6 +278,22 @@ export default function PresentationPage() {
           </button>
         </div>
       )}
+
+      {/* Slide Editor Modal */}
+      <SlideEditor
+        slide={currentSlideData}
+        isOpen={isEditing}
+        onClose={() => setIsEditing(false)}
+        onSave={handleSaveSlide}
+      />
+
+      {/* Slide Order Manager Modal */}
+      <SlideOrderManager
+        presentation={presentation}
+        isOpen={isReordering}
+        onClose={() => setIsReordering(false)}
+        onSave={handleSaveOrder}
+      />
     </div>
   );
 }
