@@ -12,87 +12,59 @@ export default function ContentSlideLayout({ slide }) {
       .replace(/# (.*?)\n/g, '<h1 class="text-2xl font-bold mb-4 text-gray-900">$1</h1>')
       .replace(/- (.*?)(?=\n|$)/g, (match, content) => {
         bulletCount++;
-        return `<div class="flex items-start mb-4"><span class="text-primary-500 font-bold mr-4 mt-1 text-lg">${bulletCount.toString().padStart(2, '0')}.</span><span class="text-gray-700 leading-relaxed">${content}</span></div>`;
+        return `<div class="flex items-start mb-4"><span class="text-indigo-500 font-bold mr-3 text-md">${bulletCount.toString().padStart(2, '0')}.</span><span class="text-gray-700 leading-relaxed text-md">${content}</span></div>`;
       })
-      .replace(/\n/g, '<br />');
+      .replace(/\n/g, '');
   };
 
   return (
     <div className="relative w-full h-full bg-white overflow-hidden">
-      {/* Decorative Wave Patterns */}
-      <div className="absolute top-0 left-0 w-64 h-full opacity-5 overflow-hidden">
-        <svg className="w-full h-full" viewBox="0 0 200 400" fill="none">
-          <path d="M0 100C50 150 100 50 150 100C175 125 200 100 200 100V0H0V100Z" fill="#6366f1" opacity="0.3" />
-          <path d="M0 200C75 250 125 150 200 200V150C150 175 100 150 50 175L0 200Z" fill="#6366f1" opacity="0.2" />
-        </svg>
-      </div>
-
-      <div className="absolute top-0 right-0 w-64 h-full opacity-5 overflow-hidden transform scale-x-[-1]">
-        <svg className="w-full h-full" viewBox="0 0 200 400" fill="none">
-          <path d="M0 100C50 150 100 50 150 100C175 125 200 100 200 100V0H0V100Z" fill="#6366f1" opacity="0.3" />
-          <path d="M0 200C75 250 125 150 200 200V150C150 175 100 150 50 175L0 200Z" fill="#6366f1" opacity="0.2" />
-        </svg>
-      </div>
-
       {/* Main Content */}
-      <div className="relative z-10 flex h-full px-12 lg:px-20 py-12">
+      <div className="relative z-10 flex h-full" style={{ padding: '2.5% 3%' }}>
         {/* Left Section - Image */}
         {slide.image_url && (
-          <div className="flex-1 flex items-center justify-center pr-12">
-            {/* Grid Pattern Background */}
-            <div className="absolute left-12 top-12 w-96 h-96 opacity-10">
-              <svg className="w-full h-full" viewBox="0 0 200 200">
-                <defs>
-                  <pattern id="content-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                    <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#6366f1" strokeWidth="0.5"/>
-                  </pattern>
-                </defs>
-                <rect width="100%" height="100%" fill="url(#content-grid)" />
-              </svg>
-            </div>
-
-            <div className="relative z-20 w-full max-w-lg">
-              {/* Image Container with Shadow */}
-              <div className="relative">
-                <div className="absolute -inset-4 bg-gradient-to-r from-primary-500 to-purple-600 rounded-2xl opacity-20 blur-lg"></div>
-                <div className="relative bg-white p-4 rounded-2xl shadow-xl">
-                  <img
-                    src={slide.image_url}
-                    alt={slide.image_alt || slide.title}
-                    className="w-full h-80 object-cover rounded-xl"
-                  />
-                </div>
+          <div className="flex items-center justify-start" style={{ width: '46.5%', paddingRight: '5%' }}>
+            <div className="relative w-full">
+              {/* White container with border and shadow - matching PPTX */}
+              <div className="relative bg-white rounded-2xl shadow-lg border border-gray-200" style={{ padding: '2.4%' }}>
+                <img
+                  src={slide.image_url}
+                  alt={slide.image_alt || slide.title}
+                  className="w-full object-cover rounded-xl"
+                  style={{ height: '280px' }}
+                />
               </div>
 
-              {/* Decorative Elements */}
-              <div className="absolute -top-4 -right-4 w-8 h-8 bg-primary-500 rounded-full opacity-80"></div>
-              <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-purple-500 rounded-full opacity-60"></div>
+              {/* Decorative circles - matching PPTX positioning */}
+              <div 
+                className="absolute w-3 h-3 bg-indigo-600 rounded-full"
+                style={{ top: '-0.5%', right: '-0.8%' }}
+              ></div>
+              <div 
+                className="absolute w-2.5 h-2.5 bg-purple-600 rounded-full"
+                style={{ bottom: '-0.8%', left: '-0.5%' }}
+              ></div>
             </div>
           </div>
         )}
 
         {/* Right Section - Content */}
-        <div className={`flex-1 flex flex-col justify-center ${slide.image_url ? 'pl-12' : 'text-center'}`}>
+        <div className={`flex flex-col justify-center ${slide.image_url ? '' : 'text-center mx-auto'}`} style={{ width: slide.image_url ? '48.5%' : '100%', maxWidth: slide.image_url ? 'none' : '85%' }}>
           {/* Title */}
-          <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+          <h1 className="font-bold text-gray-900 mb-4 leading-tight" style={{ fontSize: '2.25rem' }}>
             {slide.title}
           </h1>
 
-          {/* Purple accent line */}
-          <div className="w-20 h-1 bg-primary-500 mb-8 rounded-full"></div>
+          {/* Accent line - matching PPTX */}
+          <div className="h-1 bg-indigo-600 mb-6 rounded-full" style={{ width: '90px' }}></div>
 
           {/* Content */}
           {slide.content && (
             <div 
-              className="text-lg leading-relaxed"
+              className="leading-relaxed"
               dangerouslySetInnerHTML={{ __html: renderMarkdown(slide.content) }}
             />
           )}
-
-          {/* Decorative Quote Mark */}
-          <div className="absolute bottom-8 right-12 text-6xl text-primary-500 opacity-20 font-serif">
-            "
-          </div>
         </div>
       </div>
     </div>

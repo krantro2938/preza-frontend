@@ -28,7 +28,7 @@ export default function SlideRenderer({ slide }) {
   const LayoutComponent = getSlideLayout(slide.layout, (slide.slide_number - 1) % 6);
 
   return (
-    <div className="w-full aspect-video bg-white rounded-lg shadow-lg border overflow-hidden">
+    <div className="w-full bg-white rounded-lg shadow-lg border overflow-hidden" style={{ aspectRatio: '16/9' }}>
       <LayoutComponent slide={slide} slideNumber={slide.slide_number - 1} />
     </div>
   );
