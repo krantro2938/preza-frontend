@@ -130,6 +130,7 @@ export default function HomePage() {
                 <option value="professional">Профессиональный</option>
                 <option value="creative">Креативный</option>
                 <option value="academic">Академический</option>
+                <option value="dark">Тёмный</option>
               </select>
             </div>
           </div>

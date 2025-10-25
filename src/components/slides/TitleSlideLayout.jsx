@@ -1,4 +1,4 @@
-export default function TitleSlideLayout({ slide }) {
+export default function TitleSlideLayout({ slide, theme }) {
   const renderMarkdown = (text) => {
     if (!text) return '';
     
@@ -9,21 +9,21 @@ export default function TitleSlideLayout({ slide }) {
   };
 
   return (
-    <div className="relative w-full h-full bg-indigo-600 overflow-hidden" style={{ backgroundColor: 'rgb(99, 102, 241)' }}>
-      {/* Gradient overlay to match PPTX */}
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-700 opacity-100"></div>
+    <div className={`relative w-full h-full ${theme.title.bg} overflow-hidden`} style={{ backgroundColor: theme.title.bgRgb }}>
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 opacity-95"></div>
       
       {/* Main Content */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-16">
         {/* Title - matching PPTX positioning and size */}
-        <h1 className="text-5xl font-bold text-white mb-6 leading-tight" style={{ fontSize: '3rem' }}>
+        <h1 className={`text-5xl font-bold ${theme.title.text} mb-6 leading-tight`} style={{ fontSize: '3rem' }}>
           {slide.title}
         </h1>
 
         {/* Content - matching PPTX positioning and size */}
         {slide.content && (
           <div 
-            className="text-xl text-white text-opacity-100 leading-relaxed max-w-4xl mt-8"
+            className={`text-xl ${theme.title.text} text-opacity-100 leading-relaxed max-w-4xl mt-8`}
             style={{ fontSize: '1.25rem' }}
             dangerouslySetInnerHTML={{ __html: renderMarkdown(slide.content) }}
           />

@@ -1,4 +1,4 @@
-export default function TextOnlyLayout({ slide, slideNumber }) {
+export default function TextOnlyLayout({ slide, slideNumber, theme }) {
   const renderMarkdown = (text) => {
     if (!text) return '';
 
@@ -24,7 +24,7 @@ export default function TextOnlyLayout({ slide, slideNumber }) {
             .replace(/</g, '<')
             .replace(/>/g, '>');
           const formatted = applyInlineFormatting(escaped);
-          htmlBlocks.push(`<div class="text-gray-700">${formatted}</div>`);
+          htmlBlocks.push(`<div class="${theme.content.text}">${formatted}</div>`);
         }
         paragraphLines = [];
       }
@@ -67,8 +67,8 @@ export default function TextOnlyLayout({ slide, slideNumber }) {
         const numberLabel = bulletCount.toString().padStart(2, '0');
         htmlBlocks.push(
           `<div class="flex items-start mb-4">` +
-            `<span class="text-blue-500 font-bold mr-3 text-md">${numberLabel}.</span>` +
-            `<span class="text-gray-700 text-md">${content}</span>` +
+            `<span class="${theme.content.bullet} font-bold mr-3 text-md">${numberLabel}.</span>` +
+            `<span class="${theme.content.text} text-md">${content}</span>` +
           `</div>`
         );
         continue;
@@ -85,21 +85,21 @@ export default function TextOnlyLayout({ slide, slideNumber }) {
   };
 
   return (
-    <div className="relative w-full h-full bg-white overflow-hidden">
+    <div className={`relative w-full h-full ${theme.content.bg} overflow-hidden`}>
       {/* Decorative circles - matching PPTX */}
-      <div className="absolute w-5 h-5 bg-blue-400 rounded-full " style={{ top: '13.33%', left: '7.5%' }}></div>
+      <div className="absolute w-5 h-5 rounded-full" style={{ top: '13.33%', left: '7.5%', backgroundColor: theme.content.accentRgb }}></div>
       <div className="absolute w-6 h-6 bg-green-500 rounded-full " style={{ bottom: '13.33%', right: '7.5%' }}></div>
 
       {/* Main Content - Centered */}
       <div className="relative z-10 flex  h-full" style={{ padding: '2.5% 15%' }}>
         <div className=" w-full">
           {/* Title */}
-          <h1 className="mt-10 font-bold text-gray-900 mb-14 leading-tight text-center" style={{ fontSize: '2rem' }}>
+          <h1 className={`mt-10 font-bold ${theme.content.text} mb-14 leading-tight text-center`} style={{ fontSize: '2rem' }}>
             {slide.title}
           </h1>
 
           {/* Blue accent line - centered */}
-          <div className="h-1 bg-blue-500 rounded-full mx-auto mb-8" style={{ width: '90px' }}></div>
+          <div className={`h-1 ${theme.content.line} rounded-full mx-auto mb-8`} style={{ width: '90px' }}></div>
 
           {/* Content */}
           {slide.content && (

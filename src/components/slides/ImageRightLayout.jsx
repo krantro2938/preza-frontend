@@ -1,4 +1,4 @@
-export default function ImageRightLayout({ slide, slideNumber }) {
+export default function ImageRightLayout({ slide, slideNumber, theme }) {
   const renderMarkdown = (text) => {
     if (!text) return '';
 
@@ -18,7 +18,7 @@ export default function ImageRightLayout({ slide, slideNumber }) {
             .replace(/&/g, '&amp;')
             .replace(/</g, '<')
             .replace(/>/g, '>');
-          htmlBlocks.push(`<div class="text-gray-700 text-md">${escaped}</div>`);
+          htmlBlocks.push(`<div class="${theme.content.text} text-md">${escaped}</div>`);
         }
         paragraphBuffer = [];
       }
@@ -57,8 +57,8 @@ export default function ImageRightLayout({ slide, slideNumber }) {
         const formattedContent = applyInlineFormatting(content);
         htmlBlocks.push(
           `<div class="flex items-start mb-4">
-            <div class="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-            <span class="text-gray-700 text-md">${formattedContent}</span>
+            <div class="w-2 h-2 rounded-full mt-2 mr-3 flex-shrink-0" style="background-color: ${theme.content.accentRgb}"></div>
+            <span class="${theme.content.text} text-md">${formattedContent}</span>
           </div>`
         );
         continue;
@@ -82,18 +82,18 @@ export default function ImageRightLayout({ slide, slideNumber }) {
   };
 
   return (
-    <div className="relative w-full h-full bg-white overflow-hidden">
+    <div className={`relative w-full h-full ${theme.content.bg} overflow-hidden`}>
       {/* Main Content */}
       <div className="relative z-10 flex h-full ml-10" style={{ padding: '2.5% 1%' }}>
         {/* Left Section - Content */}
         <div className="mt-10 flex flex-col" style={{ width: '50%', paddingRight: '3%' }}>
           {/* Title */}
-          <h1 className="font-bold text-gray-900 mb-4 leading-tight" style={{ fontSize: '2rem' }}>
+          <h1 className={`font-bold ${theme.content.text} mb-4 leading-tight`} style={{ fontSize: '2rem' }}>
             {slide.title}
           </h1>
 
           {/* Purple accent line */}
-          <div className="min-h-1 h-1 bg-purple-600 mb-6 rounded-full" style={{ width: '90px' }}></div>
+          <div className={`min-h-1 h-1 ${theme.content.line} mb-6 rounded-full`} style={{ width: '90px' }}></div>
 
           {/* Content */}
           {slide.content && (
@@ -119,7 +119,7 @@ export default function ImageRightLayout({ slide, slideNumber }) {
               </div>
 
               {/* Decorative circles - matching PPTX */}
-              <div className="absolute w-3 h-3 bg-purple-600 rounded-full" style={{ top: '-1.2%', right: '-0.8%' }}></div>
+              <div className="absolute w-3 h-3 rounded-full" style={{ top: '-1.2%', right: '-0.8%', backgroundColor: theme.content.accentRgb }}></div>
               <div className="absolute w-2.5 h-2.5 bg-blue-500 rounded-full" style={{ bottom: '-0.8%', left: '-0.5%' }}></div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-export default function SplitContentLayout({ slide, slideNumber }) {
+export default function SplitContentLayout({ slide, slideNumber, theme }) {
   const renderBulletPoints = (text) => {
     if (!text) return [];
     
@@ -20,13 +20,13 @@ export default function SplitContentLayout({ slide, slideNumber }) {
   };
 
   return (
-    <div className="relative w-full h-full bg-white overflow-hidden">
+    <div className={`relative w-full h-full ${theme.content.bg} overflow-hidden`}>
       {/* Title spanning full width */}
       <div className="absolute top-0 left-0 right-0 z-20 mb-6" style={{ padding: '3.75% 3.75% 0' }}>
-        <h1 className="text-center font-bold text-gray-900 mb-3" style={{ fontSize: '1.75rem' }}>
+        <h1 className={`text-center font-bold ${theme.content.text} mb-3`} style={{ fontSize: '1.75rem' }}>
           {slide.title}
         </h1>
-        <div className="h-1 bg-green-500 mx-auto rounded-full" style={{ width: '100px', marginTop: '2.67%' }}></div>
+        <div className={`h-1 ${theme.content.line} mx-auto rounded-full`} style={{ width: '100px', marginTop: '2.67%' }}></div>
       </div>
 
       {/* Main Content - 3 Column Layout */}
@@ -35,8 +35,8 @@ export default function SplitContentLayout({ slide, slideNumber }) {
         <div className="flex flex-col justify-start" style={{ width: '33%', paddingRight: '2%' }}>
           {bullets.map((bullet, index) => (
             <div key={index} className="flex items-start mb-5">
-              <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0" style={{ marginTop: '0.4rem', marginRight: '0.75rem' }}></div>
-              <span className="text-gray-700 " style={{ fontSize: '0.8125rem' }}>{bullet}</span>
+              <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ marginTop: '0.4rem', marginRight: '0.75rem', backgroundColor: theme.content.accentRgb }}></div>
+              <span className={`${theme.content.text}`} style={{ fontSize: '0.8125rem' }}>{bullet}</span>
             </div>
           ))}
         </div>
@@ -72,9 +72,9 @@ export default function SplitContentLayout({ slide, slideNumber }) {
             
             {/* Decorative circles */}
             <div className="flex space-x-1">
-              <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-              <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-              <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+              <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: theme.content.accentRgb }}></div>
+              <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: theme.content.accentRgb }}></div>
+              <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: theme.content.accentRgb }}></div>
             </div>
           </div>
         </div>

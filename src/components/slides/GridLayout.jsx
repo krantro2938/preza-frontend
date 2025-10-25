@@ -1,4 +1,4 @@
-export default function GridLayout({ slide, slideNumber }) {
+export default function GridLayout({ slide, slideNumber, theme }) {
   const renderBulletPoints = (text) => {
     if (!text) return [];
     
@@ -12,13 +12,13 @@ export default function GridLayout({ slide, slideNumber }) {
   const bullets = renderBulletPoints(slide.content);
 
   return (
-    <div className="relative w-full h-full bg-white overflow-hidden">
+    <div className={`relative w-full h-full ${theme.content.bg} overflow-hidden`}>
       {/* Title */}
       <div className="relative z-10 text-center" style={{ padding: '3.75% 7.5% 0' }}>
-        <h1 className="font-bold text-gray-900 mb-3" style={{ fontSize: '2rem' }}>
+        <h1 className={`font-bold ${theme.content.text} mb-3`} style={{ fontSize: '2rem' }}>
           {slide.title}
         </h1>
-        <div className="h-1 bg-red-500 mx-auto rounded-full -mb-4" style={{ width: '175px', marginTop: '3.47%' }}></div>
+        <div className={`h-1 ${theme.content.line} mx-auto rounded-full -mb-4`} style={{ width: '175px', marginTop: '3.47%' }}></div>
       </div>
 
       {/* Grid Content */}
@@ -30,15 +30,15 @@ export default function GridLayout({ slide, slideNumber }) {
               className="relative"
             >
               {/* Card */}
-              <div className="bg-gray-50 rounded-3xl border-2 border-red-500 shadow-md flex flex-col justify-center" style={{ padding: '6% 6%', minHeight: '140px' }}>
+              <div className={`${theme.content.bg === 'bg-gray-900' ? 'bg-gray-800' : 'bg-gray-50'} rounded-3xl border-2 shadow-md flex flex-col justify-center`} style={{ padding: '6% 6%', minHeight: '140px', borderColor: theme.content.accentRgb }}>
                 {/* Number badge in corner */}
-                <div className="absolute bg-red-500 rounded-full flex items-center justify-center text-white font-bold" style={{ width: '32px', height: '32px', top: '8%', left: '4%', fontSize: '0.875rem' }}>
+                <div className="absolute rounded-full flex items-center justify-center text-white font-bold" style={{ width: '32px', height: '32px', top: '8%', left: '4%', fontSize: '0.875rem', backgroundColor: theme.content.accentRgb }}>
                   {index + 1}
                 </div>
                 
                 {/* Content */}
                 <div className="text-center" >
-                  <p className="text-gray-700 text-md">
+                  <p className={`${theme.content.text} text-md`}>
                     {bullet}
                   </p>
                 </div>

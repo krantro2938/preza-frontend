@@ -5,8 +5,9 @@ import TextOnlyLayout from './TextOnlyLayout';
 import SplitContentLayout from './SplitContentLayout';
 import ImageTopLayout from './ImageTopLayout';
 import GridLayout from './GridLayout';
+import { getTheme } from '../../utils/themes';
 
-export default function SlideRenderer({ slide, layoutOrder }) {
+export default function SlideRenderer({ slide, layoutOrder, style = 'minimal' }) {
   const getSlideLayout = (layout, slideNumber, layoutOrder) => {
     // Check if it's a title slide (slide_number === 1 or layout === 'title-slide')
     if (layout === 'title-slide' || slideNumber === 1) {
@@ -47,10 +48,11 @@ export default function SlideRenderer({ slide, layoutOrder }) {
   };
 
   const LayoutComponent = getSlideLayout(slide.layout, slide.slide_number, layoutOrder);
+  const theme = getTheme(style);
 
   return (
     <div className="w-full bg-white rounded-lg shadow-lg border overflow-hidden" style={{ aspectRatio: '16/9' }}>
-      <LayoutComponent slide={slide} slideNumber={slide.slide_number - 1} />
+      <LayoutComponent slide={slide} slideNumber={slide.slide_number - 1} theme={theme} />
     </div>
   );
 }
