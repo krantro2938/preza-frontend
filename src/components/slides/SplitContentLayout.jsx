@@ -1,3 +1,5 @@
+import { getProxiedImageUrl } from '../../utils/imageProxy';
+
 export default function SplitContentLayout({ slide, slideNumber, theme }) {
   const renderBulletPoints = (text) => {
     if (!text) return [];
@@ -48,7 +50,7 @@ export default function SplitContentLayout({ slide, slideNumber, theme }) {
               {/* Image container with rounded border and shadow */}
               <div className="relative bg-white rounded-xl shadow-lg border border-gray-300" style={{ padding: '2.3%' }}>
                 <img
-                  src={slide.image_url}
+                  src={getProxiedImageUrl(slide.image_url)}
                   alt={slide.image_alt || slide.title}
                   className="w-full object-cover rounded-lg"
                   style={{ height: '220px' }}

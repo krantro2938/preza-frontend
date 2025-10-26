@@ -1,3 +1,5 @@
+import { getProxiedImageUrl } from '../../utils/imageProxy';
+
 export default function ImageTopLayout({ slide, slideNumber, theme }) {
   const renderMarkdown = (text) => {
     if (!text) return '';
@@ -22,7 +24,7 @@ export default function ImageTopLayout({ slide, slideNumber, theme }) {
       <div className="relative w-full" style={{ height: '42.67%' }}>
         {slide.image_url ? (
           <img
-            src={slide.image_url}
+            src={getProxiedImageUrl(slide.image_url)}
             alt={slide.image_alt || slide.title}
             className="w-full h-full object-cover"
           />

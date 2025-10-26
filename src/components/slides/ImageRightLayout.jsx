@@ -1,3 +1,5 @@
+import { getProxiedImageUrl } from '../../utils/imageProxy';
+
 export default function ImageRightLayout({ slide, slideNumber, theme }) {
   const renderMarkdown = (text) => {
     if (!text) return '';
@@ -111,7 +113,7 @@ export default function ImageRightLayout({ slide, slideNumber, theme }) {
               {/* White container with border and shadow */}
               <div className="relative bg-white rounded-2xl shadow-lg border border-gray-200" style={{ padding: '2.4%' }}>
                 <img
-                  src={slide.image_url}
+                  src={getProxiedImageUrl(slide.image_url)}
                   alt={slide.image_alt || slide.title}
                   className="w-full object-cover rounded-xl"
                   style={{ height: '240px' }}
