@@ -1,7 +1,7 @@
 // Utility to proxy Unsplash images through our backend
 // This helps users in countries where Unsplash is blocked
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
 /**
  * Convert an Unsplash image URL to use our backend proxy
