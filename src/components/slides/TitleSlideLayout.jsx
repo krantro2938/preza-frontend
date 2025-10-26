@@ -24,7 +24,7 @@ export default function TitleSlideLayout({ slide, theme }) {
         {slide.content && (
           <div 
             className={`text-xl ${theme.title.text} text-opacity-100 leading-relaxed max-w-4xl mt-8`}
-            style={{ fontSize: '1.25rem' }}
+            style={{ fontSize: '1rem' }}
             dangerouslySetInnerHTML={{ __html: renderMarkdown(slide.content) }}
           />
         )}
