@@ -8,9 +8,6 @@ A modern React application that enables users to create professional presentatio
 
 ## 📸 Скриншоты
 
-### Главная страница
-![Home Page](docs/screenshots/home.png)
-
 ### Создание презентации
 ![Create Presentation](docs/screenshots/create.png)
 
@@ -84,7 +81,7 @@ A modern React application that enables users to create professional presentatio
    
    Создайте файл `.env` в корне директории frontend:
    ```env
-   VITE_API_URL=http://localhost:8000
+   VITE_API_BASE_URL=http://localhost:8000
    ```
 
 ### Запуск в режиме разработки
