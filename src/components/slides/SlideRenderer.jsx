@@ -6,6 +6,7 @@ import SplitContentLayout from './SplitContentLayout';
 import ImageTopLayout from './ImageTopLayout';
 import GridLayout from './GridLayout';
 import { getTheme } from '../../utils/themes';
+import { filterContentForLayout } from '../../utils/contentFilter';
 
 export default function SlideRenderer({ slide, layoutOrder, style = 'minimal' }) {
   const getSlideLayout = (layout, slideNumber, layoutOrder) => {
@@ -49,10 +50,23 @@ export default function SlideRenderer({ slide, layoutOrder, style = 'minimal' })
 
   const LayoutComponent = getSlideLayout(slide.layout, slide.slide_number, layoutOrder);
   const theme = getTheme(style);
+  
+  // Determine actual layout type based on layout order for content slides
+  let actualLayoutType = slide.layout;
+  if (slide.slide_number > 1 && layoutOrder && layoutOrder.length > 0) {
+    const contentSlideIndex = slide.slide_number - 2;
+    actualLayoutType = layoutOrder[contentSlideIndex % layoutOrder.length];
+  }
+  
+  // Filter content based on layout type
+  const filteredSlide = {
+    ...slide,
+    content: filterContentForLayout(slide.content, actualLayoutType)
+  };
 
   return (
     <div className="w-full bg-white rounded-lg shadow-lg border overflow-hidden" style={{ aspectRatio: '16/9' }}>
-      <LayoutComponent slide={slide} slideNumber={slide.slide_number - 1} theme={theme} />
+      <LayoutComponent slide={filteredSlide} slideNumber={slide.slide_number - 1} theme={theme} />
     </div>
   );
 }

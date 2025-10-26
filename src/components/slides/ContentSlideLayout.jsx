@@ -25,7 +25,7 @@ export default function ContentSlideLayout({ slide, theme }) {
       <div className="relative z-10 flex h-full" style={{ padding: '2.5% 3%' }}>
         {/* Left Section - Image */}
         {slide.image_url && (
-          <div className="flex items-center justify-start" style={{ width: '46.5%', paddingRight: '5%' }}>
+          <div className="flex items-center justify-start" style={{ width: '50%', paddingRight: '5%' }}>
             <div className="relative w-full">
               {/* White container with border and shadow - matching PPTX */}
               <div className="relative bg-white rounded-2xl shadow-lg border border-gray-200" style={{ padding: '2.4%' }}>
@@ -51,7 +51,7 @@ export default function ContentSlideLayout({ slide, theme }) {
         )}
 
         {/* Right Section - Content */}
-        <div className={`flex flex-col justify-center ${slide.image_url ? '' : 'text-center mx-auto'}`} style={{ width: slide.image_url ? '48.5%' : '100%', maxWidth: slide.image_url ? 'none' : '85%' }}>
+        <div className={`flex flex-col justify-center ${slide.image_url ? '' : 'text-center mx-auto'}`} style={{ width: slide.image_url ? '50%' : '100%', maxWidth: slide.image_url ? 'none' : '85%' }}>
           {/* Title */}
           <h1 className={`font-bold ${theme.content.text} mb-4 leading-tight`} style={{ fontSize: '2.25rem' }}>
             {slide.title}

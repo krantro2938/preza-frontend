@@ -36,7 +36,7 @@ export default function ImageTopLayout({ slide, slideNumber, theme }) {
       </div>
 
       {/* Bottom Section - Content */}
-      <div className="relative z-20" style={{ height: '57.33%', padding: '5.07% 7.5% 0' }}>
+      <div className="relative z-20 -mt-8" style={{ height: '57.33%', padding: '5.07% 7.5% 0' }}>
         <div className="text-center max-w-5xl mx-auto">
           {/* Title */}
           <h1 className={`font-bold ${theme.content.text} mb-4 leading-tight`} style={{ fontSize: '2rem' }}>

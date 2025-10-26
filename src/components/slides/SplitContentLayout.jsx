@@ -34,7 +34,7 @@ export default function SplitContentLayout({ slide, slideNumber, theme }) {
       {/* Main Content - 3 Column Layout */}
       <div className="relative z-10 flex h-full mt-6" style={{ padding: '13.33% 2.25% 0' }}>
         {/* Left Column - Bullets (28.5% width) */}
-        <div className="flex flex-col justify-start" style={{ width: '33%', paddingRight: '2%' }}>
+        <div className="flex flex-col justify-start" style={{ width: '37%', paddingRight: '2%' }}>
           {bullets.map((bullet, index) => (
             <div key={index} className="flex items-start mb-5">
               <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ marginTop: '0.4rem', marginRight: '0.75rem', backgroundColor: theme.content.accentRgb }}></div>
