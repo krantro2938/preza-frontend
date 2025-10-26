@@ -24,7 +24,7 @@ export default function TextOnlyLayout({ slide, slideNumber, theme }) {
             .replace(/</g, '<')
             .replace(/>/g, '>');
           const formatted = applyInlineFormatting(escaped);
-          htmlBlocks.push(`<div class="${theme.content.text}">${formatted}</div>`);
+          htmlBlocks.push(`<div class="${theme.content.text} mt-8">${formatted}</div>`);
         }
         paragraphLines = [];
       }
@@ -94,7 +94,7 @@ export default function TextOnlyLayout({ slide, slideNumber, theme }) {
       <div className="relative z-10 flex  h-full" style={{ padding: '2.5% 15%' }}>
         <div className=" w-full">
           {/* Title */}
-          <h1 className={`mt-10 font-bold ${theme.content.text} mb-14 leading-tight text-center`} style={{ fontSize: '2rem' }}>
+          <h1 className={`mt-10 font-bold ${theme.content.text} mb-4 leading-tight text-center`} style={{ fontSize: '2rem' }}>
             {slide.title}
           </h1>
 
