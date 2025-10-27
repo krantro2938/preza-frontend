@@ -1,8 +1,8 @@
 # AI Presentation Builder - Frontend
 
-**AI-powered presentation builder with beautiful, customizable themes and intuitive editing**
+**Конструктор презентаций на базе искусственного интеллекта с красивыми, настраиваемыми темами и интуитивно понятным редактированием**
 
-A modern React application that enables users to create professional presentations using AI. Features a minimalistic design with multiple theme options, drag-and-drop slide reordering, and real-time editing capabilities.
+Современное приложение React, позволяющее пользователям создавать профессиональные презентации с использованием искусственного интеллекта. Имеет минималистичный дизайн с несколькими вариантами оформления, возможностью перетаскивания слайдов и возможностью редактирования в режиме реального времени.
 
 ---
 
@@ -119,13 +119,11 @@ npm run lint
 ```
 frontend/
 ├── src/
-│   ├── components/        # React компоненты
-│   │   ├── layouts/      # Компоненты макетов слайдов
-│   │   └── ui/           # UI компоненты
+│   ├── components/       # React компоненты
+│   │   ├── slides/       # Компоненты макетов слайдов
 │   ├── pages/            # Страницы приложения
 │   ├── services/         # API сервисы
 │   ├── utils/            # Утилиты и хелперы
-│   ├── config/           # Конфигурация тем
 │   ├── App.jsx           # Главный компонент
 │   └── main.jsx          # Точка входа
 ├── public/               # Статические файлы
